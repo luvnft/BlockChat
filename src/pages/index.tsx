@@ -39,7 +39,7 @@ const Index = () => {
           </h1>
         </div>
         <div>
-          <p>Made with ❤️</p>
+          <p>Made with ❤️ NFT</p>
         </div>
       </div>
 
