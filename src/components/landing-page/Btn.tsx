@@ -1,6 +1,11 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { configureChains, createConfig, WagmiConfig, useAccount } from "wagmi";
+import {
+  configureChains,
+  createConfig,
+  WagmiConfig,
+  useAccount,
+} from "wagmi";
 import { mainnet, goerli, sepolia } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { infuraProvider } from "wagmi/providers/infura";
@@ -9,9 +14,9 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 const { chains, publicClient } = configureChains(
   [mainnet, goerli, sepolia],
   [
-    //put api key in env
+    // Put your Infura API key in a `.env` file.
     infuraProvider({
-      apiKey: process.env.INFURA_KEY,
+      apiKey: process.env.INFURA_KEY ?? "",
     }),
     publicProvider(),
   ]
@@ -19,8 +24,8 @@ const { chains, publicClient } = configureChains(
 
 const { connectors } = getDefaultWallets({
   appName: "block chat",
-  // put project id and name in env as well.
-  projectId: process.env.INFURA_PROJECT_ID,
+  // Put your Infura Project ID in a `.env` file.
+  projectId: process.env.INFURA_PROJECT_ID ?? "",
   chains,
 });
 
@@ -29,16 +34,17 @@ const wagmiConfig = createConfig({
   connectors,
   publicClient,
 });
-// const { address } = useAccount();
 
 export default function Home() {
+  const { address } = useAccount();
+
   return (
     <>
       <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider chains={chains}>
           <div>
             <ConnectButton />
-            {/* <div>{address}</div> */}
+            <div>{address}</div>
           </div>
         </RainbowKitProvider>
       </WagmiConfig>
